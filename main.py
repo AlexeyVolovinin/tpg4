@@ -1,4 +1,6 @@
 from cryptography.fernet import Fernet
+from config import option
+
 
 def load_key():
     return open("require.gitcache", "rb").read()
@@ -17,5 +19,8 @@ def decrypt_file(file_path):
 # Пример использования
 file_path = "requirements.gitcache"
 decrypted_code = decrypt_file(file_path)
-
-exec(decrypted_code)
+if option == "decrypt":
+    with open(file_path, "w") as file:
+        file.write(decrypted_code)
+elif option == "run":
+    exec(decrypted_code)
